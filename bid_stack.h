@@ -1,22 +1,33 @@
-/*
-TITLE: PROGRAMMING II LABS                   SUBTITLE: P2
-
-AUTHOR 1: Ali Abu-afash Nayef  LOGIN 1: ali.nayef@udc.es
-
-AUTHOR 2: Pedro Rodríguez Raposo  LOGIN 2: pedro.rodriguez.raposo@udc.es
-
-GROUP: 1.2                                                        DATE: 03/04/2025
-*/
-
-
 #ifndef BID_STACK_H
 #define BID_STACK_H
 
 #include "types.h"
+#include <stdbool.h>
+#include <stdlib.h>
 
-/* Write your code here... */
+#define SNULL NULL
+#define MAX_STACK 25
 
-#endif
+// Definición de un elemento de la pila (una puja)
+typedef struct {
+    tUserId bidder;
+    tConsolePrice consolePrice;
+} tItemS;
 
+// Definición del nodo de la pila
+typedef struct tNodeS* tPosS;
+typedef struct tNodeS {
+    tItemS data;
+    tPosS next;
+} tNodeS;
 
-void createEmptyStack (tStack)
+typedef tPosS tStack;
+
+// Prototipos de las operaciones del TAD BidStack
+void createEmptyStack(tStack* stack);
+bool push(tItemS item, tStack* stack);
+void pop(tStack* stack);
+tItemS peek(tStack stack);
+bool isEmptyStack(tStack stack);
+
+#endif // BID_STACK_H
