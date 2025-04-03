@@ -1,0 +1,5 @@
+C:/Users/Ali Abu-afash Nayef/Documents/Ingeniería informática/1ºer Año/2do Cuatri/PRO2/Plantilla-Template_P2/cmake-build-debug/CMakeFiles/test_bid_stack.dir
+C:/Users/Ali Abu-afash Nayef/Documents/Ingeniería informática/1ºer Año/2do Cuatri/PRO2/Plantilla-Template_P2/cmake-build-debug/CMakeFiles/test_console_list.dir
+C:/Users/Ali Abu-afash Nayef/Documents/Ingeniería informática/1ºer Año/2do Cuatri/PRO2/Plantilla-Template_P2/cmake-build-debug/CMakeFiles/main.dir
+C:/Users/Ali Abu-afash Nayef/Documents/Ingeniería informática/1ºer Año/2do Cuatri/PRO2/Plantilla-Template_P2/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Ali Abu-afash Nayef/Documents/Ingeniería informática/1ºer Año/2do Cuatri/PRO2/Plantilla-Template_P2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
