@@ -1,20 +1,23 @@
+/*
+TITLE: PROGRAMMING II LABS                   SUBTITLE: P2
+
+AUTHOR 1: Ali Abu-afash Nayef  LOGIN 1: ali.nayef@udc.es
+
+AUTHOR 2: Pedro Rodríguez Raposo  LOGIN 2: pedro.rodriguez.raposo@udc.es
+
+GROUP: 1.2                                                        DATE: 03/04/2025
+*/
+
 #include "bid_stack.h"
 #include <stdbool.h>
-#include <stdlib.h>
-
-// Función auxiliar para crear un nuevo nodo
-bool createNode(tPosS* p) {
-    *p = malloc(sizeof(struct tNodeS));
-    return (*p != SNULL);
-}
 
 /*
  * Objetivo: Crear una pila vacía.
  * Precondiciones: Ninguna.
- * Postcondiciones: La pila queda inicializada como vacía (SNULL).
+ * Postcondiciones: La pila queda inicializada como vacía (top = SNULL).
  */
 void createEmptyStack(tStack* stack) {
-    *stack = SNULL;
+    stack->top = SNULL;
 }
 
 /*
@@ -23,45 +26,28 @@ void createEmptyStack(tStack* stack) {
  *   - item: elemento a insertar.
  *   - stack: puntero a la pila.
  * Salidas:
- *   - true si el elemento fue apilado, false si no hay memoria o la pila está llena.
+ *   - true si el elemento fue apilado, false si la pila está llena.
  * Precondiciones: La pila debe estar inicializada.
- * Postcondiciones: Si hay memoria y la pila no supera 25 elementos, el nuevo elemento queda en la cima.
+ * Postcondiciones: Si hay espacio, el nuevo elemento queda en la cima.
  */
 bool push(tItemS item, tStack* stack) {
-    tPosS aux;
-    int count = 0;
-    tPosS current = *stack;
-
-    // Verificar que la pila no supere el máximo de 25 pujas.
-    while (current != SNULL && count < MAX_STACK) {
-        count++;
-        current = current->next;
-    }
-    if (count >= MAX_STACK) {
-        return false; // La pila está llena.
+    if (stack->top >= MAX_STACK - 1) {
+        return false;  // La pila está llena
     }
 
-    if (!createNode(&aux)) {
-        return false; // Error al asignar memoria.
-    }
-
-    aux->data = item;
-    aux->next = *stack;
-    *stack = aux;
+    stack->top++;
+    stack->data[stack->top] = item;
     return true;
 }
 
 /*
  * Objetivo: Eliminar el elemento situado en la cima de la pila.
  * Precondiciones: La pila debe estar inicializada y no estar vacía.
- * Postcondiciones: Se elimina el elemento de la cima y se libera la memoria.
+ * Postcondiciones: Se elimina el elemento de la cima.
  */
 void pop(tStack* stack) {
-    tPosS aux;
-    if (*stack != SNULL) {
-        aux = *stack;
-        *stack = (*stack)->next;
-        free(aux);
+    if (stack->top > SNULL) {
+        stack->top--;
     }
 }
 
@@ -71,7 +57,7 @@ void pop(tStack* stack) {
  * Postcondiciones: La pila no se modifica.
  */
 tItemS peek(tStack stack) {
-    return stack->data;
+    return stack.data[stack.top];
 }
 
 /*
@@ -81,5 +67,5 @@ tItemS peek(tStack stack) {
  * Precondiciones: La pila debe estar inicializada.
  */
 bool isEmptyStack(tStack stack) {
-    return (stack == SNULL);
+    return (stack.top == SNULL);
 }

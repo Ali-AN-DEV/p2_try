@@ -1,11 +1,20 @@
+/*
+TITLE: PROGRAMMING II LABS                   SUBTITLE: P2
+
+AUTHOR 1: Ali Abu-afash Nayef  LOGIN 1: ali.nayef@udc.es
+
+AUTHOR 2: Pedro Rodríguez Raposo  LOGIN 2: pedro.rodriguez.raposo@udc.es
+
+GROUP: 1.2                                                        DATE: 03/04/2025
+*/
+
 #ifndef BID_STACK_H
 #define BID_STACK_H
 
 #include "types.h"
 #include <stdbool.h>
-#include <stdlib.h>
 
-#define SNULL NULL
+#define SNULL -1
 #define MAX_STACK 25
 
 // Definición de un elemento de la pila (una puja)
@@ -14,14 +23,14 @@ typedef struct {
     tConsolePrice consolePrice;
 } tItemS;
 
-// Definición del nodo de la pila
-typedef struct tNodeS* tPosS;
-typedef struct tNodeS {
-    tItemS data;
-    tPosS next;
-} tNodeS;
+// Definición de posición en la pila
+typedef int tPosS;
 
-typedef tPosS tStack;
+// Definición de la pila estática
+typedef struct {
+    tItemS data[MAX_STACK];  // Array de elementos
+    tPosS top;               // Índice del elemento superior
+} tStack;
 
 // Prototipos de las operaciones del TAD BidStack
 void createEmptyStack(tStack* stack);
