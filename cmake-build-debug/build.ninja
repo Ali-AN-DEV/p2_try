@@ -50,14 +50,14 @@ cmake_ninja_workdir = C$:/Users/Ali$ Abu-afash$ Nayef/Documents/Ingeniería$ inf
 build cmake_object_order_depends_target_test_bid_stack: phony || .
 
 build CMakeFiles/test_bid_stack.dir/test_bid_stack.c.obj: C_COMPILER__test_bid_stack_unscanned_Debug C$:/Users/Ali$ Abu-afash$ Nayef/Documents/Ingeniería$ informática/1ºer$ Año/2do$ Cuatri/PRO2/Plantilla-Template_P2/test_bid_stack.c || cmake_object_order_depends_target_test_bid_stack
-  DEFINES = -DINPUT_FILE=\"bid.txt\"
+  DEFINES = -DINPUT_FILE=\"new.txt\"
   DEP_FILE = CMakeFiles\test_bid_stack.dir\test_bid_stack.c.obj.d
   FLAGS = -g -std=gnu99 -fdiagnostics-color=always -Wall -Wextra
   OBJECT_DIR = CMakeFiles\test_bid_stack.dir
   OBJECT_FILE_DIR = CMakeFiles\test_bid_stack.dir
 
 build CMakeFiles/test_bid_stack.dir/bid_stack.c.obj: C_COMPILER__test_bid_stack_unscanned_Debug C$:/Users/Ali$ Abu-afash$ Nayef/Documents/Ingeniería$ informática/1ºer$ Año/2do$ Cuatri/PRO2/Plantilla-Template_P2/bid_stack.c || cmake_object_order_depends_target_test_bid_stack
-  DEFINES = -DINPUT_FILE=\"bid.txt\"
+  DEFINES = -DINPUT_FILE=\"new.txt\"
   DEP_FILE = CMakeFiles\test_bid_stack.dir\bid_stack.c.obj.d
   FLAGS = -g -std=gnu99 -fdiagnostics-color=always -Wall -Wextra
   OBJECT_DIR = CMakeFiles\test_bid_stack.dir
@@ -91,14 +91,14 @@ build C$:/Users/Ali$ Abu-afash$ Nayef/Documents/Ingeniería$ informática/1ºer$
 build cmake_object_order_depends_target_test_console_list: phony || .
 
 build CMakeFiles/test_console_list.dir/test_console_list.c.obj: C_COMPILER__test_console_list_unscanned_Debug C$:/Users/Ali$ Abu-afash$ Nayef/Documents/Ingeniería$ informática/1ºer$ Año/2do$ Cuatri/PRO2/Plantilla-Template_P2/test_console_list.c || cmake_object_order_depends_target_test_console_list
-  DEFINES = -DINPUT_FILE=\"bid.txt\"
+  DEFINES = -DINPUT_FILE=\"new.txt\"
   DEP_FILE = CMakeFiles\test_console_list.dir\test_console_list.c.obj.d
   FLAGS = -g -std=gnu99 -fdiagnostics-color=always -Wall -Wextra
   OBJECT_DIR = CMakeFiles\test_console_list.dir
   OBJECT_FILE_DIR = CMakeFiles\test_console_list.dir
 
 build CMakeFiles/test_console_list.dir/console_list.c.obj: C_COMPILER__test_console_list_unscanned_Debug C$:/Users/Ali$ Abu-afash$ Nayef/Documents/Ingeniería$ informática/1ºer$ Año/2do$ Cuatri/PRO2/Plantilla-Template_P2/console_list.c || cmake_object_order_depends_target_test_console_list
-  DEFINES = -DINPUT_FILE=\"bid.txt\"
+  DEFINES = -DINPUT_FILE=\"new.txt\"
   DEP_FILE = CMakeFiles\test_console_list.dir\console_list.c.obj.d
   FLAGS = -g -std=gnu99 -fdiagnostics-color=always -Wall -Wextra
   OBJECT_DIR = CMakeFiles\test_console_list.dir
@@ -132,21 +132,21 @@ build C$:/Users/Ali$ Abu-afash$ Nayef/Documents/Ingeniería$ informática/1ºer$
 build cmake_object_order_depends_target_main: phony || .
 
 build CMakeFiles/main.dir/main.c.obj: C_COMPILER__main_unscanned_Debug C$:/Users/Ali$ Abu-afash$ Nayef/Documents/Ingeniería$ informática/1ºer$ Año/2do$ Cuatri/PRO2/Plantilla-Template_P2/main.c || cmake_object_order_depends_target_main
-  DEFINES = -DINPUT_FILE=\"bid.txt\"
+  DEFINES = -DINPUT_FILE=\"new.txt\"
   DEP_FILE = CMakeFiles\main.dir\main.c.obj.d
   FLAGS = -g -std=gnu99 -fdiagnostics-color=always -Wall -Wextra
   OBJECT_DIR = CMakeFiles\main.dir
   OBJECT_FILE_DIR = CMakeFiles\main.dir
 
 build CMakeFiles/main.dir/console_list.c.obj: C_COMPILER__main_unscanned_Debug C$:/Users/Ali$ Abu-afash$ Nayef/Documents/Ingeniería$ informática/1ºer$ Año/2do$ Cuatri/PRO2/Plantilla-Template_P2/console_list.c || cmake_object_order_depends_target_main
-  DEFINES = -DINPUT_FILE=\"bid.txt\"
+  DEFINES = -DINPUT_FILE=\"new.txt\"
   DEP_FILE = CMakeFiles\main.dir\console_list.c.obj.d
   FLAGS = -g -std=gnu99 -fdiagnostics-color=always -Wall -Wextra
   OBJECT_DIR = CMakeFiles\main.dir
   OBJECT_FILE_DIR = CMakeFiles\main.dir
 
 build CMakeFiles/main.dir/bid_stack.c.obj: C_COMPILER__main_unscanned_Debug C$:/Users/Ali$ Abu-afash$ Nayef/Documents/Ingeniería$ informática/1ºer$ Año/2do$ Cuatri/PRO2/Plantilla-Template_P2/bid_stack.c || cmake_object_order_depends_target_main
-  DEFINES = -DINPUT_FILE=\"bid.txt\"
+  DEFINES = -DINPUT_FILE=\"new.txt\"
   DEP_FILE = CMakeFiles\main.dir\bid_stack.c.obj.d
   FLAGS = -g -std=gnu99 -fdiagnostics-color=always -Wall -Wextra
   OBJECT_DIR = CMakeFiles\main.dir

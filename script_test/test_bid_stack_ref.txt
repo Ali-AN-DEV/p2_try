@@ -13,4 +13,4 @@ Empty stack: no, peek: user1 10.00.
 Empty stack: yes.
 * Pushing and poping a bid:
 Empty stack: no, peek: user5 50.00.
-Empty stack: yes.s
+Empty stack: yes.
