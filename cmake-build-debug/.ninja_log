@@ -1,16 +1,15 @@
 # ninja log v6
 34	321	7653780026000222	CMakeFiles/test_console_list.dir/console_list.c.obj	7efc029bb4c00237
-21	335	7653780025874060	CMakeFiles/test_console_list.dir/test_console_list.c.obj	9a4851819e8ee2eb
-2	77	7654206542714568	CMakeFiles/test_bid_stack.dir/test_bid_stack.c.obj	ad2c1da47362be25
-338	665	7653780029043428	C:/Users/Ali Abu-afash Nayef/Documents/Ingeniería informática/1ºer Año/2do Cuatri/PRO2/Plantilla-Template_P2/bin/test_console_list.exe	799ace4e98d4d4ad
-7	78	7654206542765153	CMakeFiles/test_bid_stack.dir/bid_stack.c.obj	49124918217c508c
-78	166	7654206543478515	C:/Users/Ali Abu-afash Nayef/Documents/Ingeniería informática/1ºer Año/2do Cuatri/PRO2/Plantilla-Template_P2/bin/test_bid_stack.exe	d2f9aab74babca80
-34	99	7654222231633284	CMakeFiles/test_bid_stack.dir/bid_stack.c.obj	1f365b58cdc1564f
 29	106	7654222231581788	CMakeFiles/test_bid_stack.dir/test_bid_stack.c.obj	80275a87ff243d4e
-106	184	7654222232355016	C:/Users/Ali Abu-afash Nayef/Documents/Ingeniería informática/1ºer Año/2do Cuatri/PRO2/Plantilla-Template_P2/bin/test_bid_stack.exe	d2f9aab74babca80
-30	92	7654222700694456	CMakeFiles/test_bid_stack.dir/bid_stack.c.obj	1f365b58cdc1564f
-92	177	7654222701314694	C:/Users/Ali Abu-afash Nayef/Documents/Ingeniería informática/1ºer Año/2do Cuatri/PRO2/Plantilla-Template_P2/bin/test_bid_stack.exe	d2f9aab74babca80
-18	73	7654222787266006	CMakeFiles/test_bid_stack.dir/bid_stack.c.obj	1f365b58cdc1564f
-74	143	7654222787821781	C:/Users/Ali Abu-afash Nayef/Documents/Ingeniería informática/1ºer Año/2do Cuatri/PRO2/Plantilla-Template_P2/bin/test_bid_stack.exe	d2f9aab74babca80
+21	335	7653780025874060	CMakeFiles/test_console_list.dir/test_console_list.c.obj	9a4851819e8ee2eb
+43	154	7667097163271098	CMakeFiles/main.dir/bid_stack.c.obj	b55b47dfe13c1fb
+338	665	7653780029043428	C:/Users/Ali Abu-afash Nayef/Documents/Ingeniería informática/1ºer Año/2do Cuatri/PRO2/Plantilla-Template_P2/bin/test_console_list.exe	799ace4e98d4d4ad
+30	162	7667097163127939	CMakeFiles/main.dir/main.c.obj	af2ee388ce326c82
 17	89	7654222867018888	CMakeFiles/test_bid_stack.dir/bid_stack.c.obj	1f365b58cdc1564f
 89	182	7654222867793512	C:/Users/Ali Abu-afash Nayef/Documents/Ingeniería informática/1ºer Año/2do Cuatri/PRO2/Plantilla-Template_P2/bin/test_bid_stack.exe	d2f9aab74babca80
+39	153	7667097163237988	CMakeFiles/main.dir/console_list.c.obj	acf19ab5ea3acaf6
+162	462	7667097164454638	C:/Users/Ali Abu-afash Nayef/Documents/Ingeniería informática/1ºer Año/2do Cuatri/PRO2/Plantilla-Template_P2/bin/main.exe	2c331fc4a33f7aa7
+14	89	7667098009589006	CMakeFiles/main.dir/bid_stack.c.obj	3fe8a02dafe8d236
+9	90	7667098009545973	CMakeFiles/main.dir/console_list.c.obj	470ef95e39598c5c
+5	100	7667098009495444	CMakeFiles/main.dir/main.c.obj	8f98856cad93e4f5
+100	206	7667098010448334	C:/Users/Ali Abu-afash Nayef/Documents/Ingeniería informática/1ºer Año/2do Cuatri/PRO2/Plantilla-Template_P2/bin/main.exe	2c331fc4a33f7aa7
