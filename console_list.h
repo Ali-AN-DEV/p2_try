@@ -15,6 +15,7 @@ GROUP: 1.2                                                        DATE: 03/04/20
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stddef.h>
+#include "bid_stack.h"
 
 #define LNULL NULL
 
@@ -26,7 +27,7 @@ typedef struct tItemL {
     tConsoleBrand consoleBrand;
     tConsolePrice consolePrice;
     tBidCounter bidCounter;
-    //tStack bidStack;  // Nueva: pila de pujas para la consola
+    tStack bidStack;
 } tItemL;
 
 typedef struct tNode {

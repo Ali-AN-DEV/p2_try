@@ -32,7 +32,7 @@ typedef struct {
     tPosS top;               // Índice del elemento superior
 } tStack;
 
-// Prototipos de las operaciones del TAD BidStack
+//operaciones del TAD BidStack
 void createEmptyStack(tStack* stack);
 bool push(tItemS item, tStack* stack);
 void pop(tStack* stack);
