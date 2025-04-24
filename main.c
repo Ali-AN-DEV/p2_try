@@ -5,7 +5,7 @@ AUTHOR 1: Ali Abu-afash Nayef  LOGIN 1: ali.nayef@udc.es
 
 AUTHOR 2: Pedro Rodríguez Raposo  LOGIN 2: pedro.rodriguez.raposo@udc.es
 
-GROUP: 1.2                                                        DATE: 03/04/2025
+GROUP: 1.2                                                        DATE: 20/04/2025
 */
 
 #include <stdio.h>
@@ -19,10 +19,6 @@ GROUP: 1.2                                                        DATE: 03/04/20
 
 #define MAX_BUFFER 255
 
-// Lista estática para almacenar todas las consolas
-static tList consoleList;
-static int initialized = 0;
-
 /*
  * Objetivo: Procesar el comando [N]ew para añadir una nueva consola
  * Entradas:
@@ -31,9 +27,17 @@ static int initialized = 0;
  *   - userId: identificador del vendedor
  *   - brand: marca de la consola
  *   - price: precio de la consola
- * Salidas: Imprime el resultado del comando
+ *   - consoleList: puntero a la lista de consolas
+ * Salidas:
+ *   - consoleList: lista de consolas actualizada
+ * Precondiciones:
+ *   - consoleList debe estar inicializada
+ *   - Todos los parámetros de cadena deben ser no nulos
+ * Postcondiciones:
+ *   - Si la operación es exitosa, la consola se añade a la lista
+ *   - Se muestra el resultado del comando
  */
-void processNewCommand(char *commandNumber, char *consoleId, char *userId, char *brand, char *price) {
+void New(char *commandNumber, char *consoleId, char *userId, char *brand, char *price, tList *consoleList) {
     tItemL newConsole;
     tStack emptyStack;
 
@@ -41,7 +45,7 @@ void processNewCommand(char *commandNumber, char *consoleId, char *userId, char 
            commandNumber, consoleId, userId, brand, price);
 
     // Comprobar si la consola ya existe
-    if (findItem(consoleId, consoleList) != LNULL) {
+    if (findItem(consoleId, *consoleList) != LNULL) {
         printf("+ Error: New not possible\n");
         return;
     }
@@ -58,7 +62,7 @@ void processNewCommand(char *commandNumber, char *consoleId, char *userId, char 
     newConsole.bidStack = emptyStack;
 
     // Insertar la consola en la lista
-    if (insertItem(newConsole, &consoleList)) {
+    if (insertItem(newConsole, consoleList)) {
         printf("* New: console %s seller %s brand %s price %.2f\n",
                newConsole.consoleId, newConsole.seller,
                (newConsole.consoleBrand == nintendo) ? "nintendo" : "sega",
@@ -73,39 +77,43 @@ void processNewCommand(char *commandNumber, char *consoleId, char *userId, char 
  * Entradas:
  *   - commandNumber: número de comando
  *   - consoleId: identificador de la consola a eliminar
- * Salidas: Imprime el resultado del comando
+ *   - consoleList: puntero a la lista de consolas
+ * Salidas:
+ *   - consoleList: lista de consolas actualizada
+ * Precondiciones:
+ *   - consoleList debe estar inicializada
+ *   - Todos los parámetros de cadena deben ser no nulos
+ * Postcondiciones:
+ *   - Si la operación es exitosa, la consola se elimina de la lista
+ *   - Se muestra el resultado del comando
  */
-void processDeleteCommand(char *commandNumber, char *consoleId) {
-    tPosL pos;
-    tItemL console;
+    void Delete(char *commandNumber, char *consoleId, tList *consoleList) {
+        tPosL pos;
+        tItemL console;
 
-    printf("%s D: console %s\n", commandNumber, consoleId);
+        printf("%s D: console %s\n", commandNumber, consoleId);
 
-    // Buscar la consola
-    pos = findItem(consoleId, consoleList);
-    if (pos == LNULL) {
-        printf("+ Error: Delete not possible\n");
-        return;
+        // Buscar la consola
+        pos = findItem(consoleId, *consoleList);
+        if (pos == LNULL) {
+            printf("+ Error: Delete not possible\n");
+            return;
+        }
+
+        // Obtener datos de la consola
+        console = getItem(pos, *consoleList);
+
+
+
+        // Imprimir información antes de eliminar
+        printf("* Delete: console %s seller %s brand %s price %.2f bids %d\n",
+               console.consoleId, console.seller,
+               (console.consoleBrand == nintendo) ? "nintendo" : "sega",
+               console.consolePrice, console.bidCounter);
+
+        // Eliminar la consola
+        deleteAtPosition(pos, consoleList);
     }
-
-    // Obtener datos de la consola
-    console = getItem(pos, consoleList);
-
-    // Verificar si la pila de pujas está vacía
-    if (!isEmptyStack(console.bidStack)) {
-        printf("+ Error: Delete not possible\n");
-        return;
-    }
-
-    // Imprimir información antes de eliminar
-    printf("* Delete: console %s seller %s brand %s price %.2f bids %d\n",
-           console.consoleId, console.seller,
-           (console.consoleBrand == nintendo) ? "nintendo" : "sega",
-           console.consolePrice, console.bidCounter);
-
-    // Eliminar la consola
-    deleteAtPosition(pos, &consoleList);
-}
 
 /*
  * Objetivo: Procesar el comando [B]id para realizar una puja por una consola
@@ -114,9 +122,17 @@ void processDeleteCommand(char *commandNumber, char *consoleId) {
  *   - consoleId: identificador de la consola
  *   - userId: identificador del pujador
  *   - price: precio de la puja
- * Salidas: Imprime el resultado del comando
+ *   - consoleList: puntero a la lista de consolas
+ * Salidas:
+ *   - consoleList: lista de consolas actualizada
+ * Precondiciones:
+ *   - consoleList debe estar inicializada
+ *   - Todos los parámetros de cadena deben ser no nulos
+ * Postcondiciones:
+ *   - Si la operación es exitosa, se añade la puja a la consola
+ *   - Se muestra el resultado del comando
  */
-void processBidCommand(char *commandNumber, char *consoleId, char *userId, char *price) {
+void Bid(char *commandNumber, char *consoleId, char *userId, char *price, tList *consoleList) {
     tPosL pos;
     tItemL console;
     tItemS newBid;
@@ -127,14 +143,14 @@ void processBidCommand(char *commandNumber, char *consoleId, char *userId, char 
            commandNumber, consoleId, userId, price);
 
     // Buscar la consola
-    pos = findItem(consoleId, consoleList);
+    pos = findItem(consoleId, *consoleList);
     if (pos == LNULL) {
         printf("+ Error: Bid not possible\n");
         return;
     }
 
     // Obtener datos de la consola
-    console = getItem(pos, consoleList);
+    console = getItem(pos, *consoleList);
 
     // Verificar que el pujador no sea el vendedor
     if (strcmp(console.seller, userId) == 0) {
@@ -171,7 +187,7 @@ void processBidCommand(char *commandNumber, char *consoleId, char *userId, char 
     console.bidCounter++;
 
     // Actualizar la consola en la lista
-    updateItem(console, pos, &consoleList);
+    updateItem(console, pos, consoleList);
 
     // Imprimir resultado
     printf("* Bid: console %s bidder %s brand %s price %.2f bids %d\n",
@@ -185,9 +201,17 @@ void processBidCommand(char *commandNumber, char *consoleId, char *userId, char 
  * Entradas:
  *   - commandNumber: número de comando
  *   - consoleId: identificador de la consola
- * Salidas: Imprime el resultado del comando
+ *   - consoleList: puntero a la lista de consolas
+ * Salidas:
+ *   - consoleList: lista de consolas actualizada
+ * Precondiciones:
+ *   - consoleList debe estar inicializada
+ *   - Todos los parámetros de cadena deben ser no nulos
+ * Postcondiciones:
+ *   - Si la operación es exitosa, la consola se elimina de la lista
+ *   - Se muestra el resultado del comando
  */
-void processAwardCommand(char *commandNumber, char *consoleId) {
+void Award(char *commandNumber, char *consoleId, tList *consoleList) {
     tPosL pos;
     tItemL console;
     tItemS winningBid;
@@ -195,14 +219,14 @@ void processAwardCommand(char *commandNumber, char *consoleId) {
     printf("%s A: console %s\n", commandNumber, consoleId);
 
     // Buscar la consola
-    pos = findItem(consoleId, consoleList);
+    pos = findItem(consoleId, *consoleList);
     if (pos == LNULL) {
         printf("+ Error: Award not possible\n");
         return;
     }
 
     // Obtener datos de la consola
-    console = getItem(pos, consoleList);
+    console = getItem(pos, *consoleList);
 
     // Verificar si hay pujas
     if (isEmptyStack(console.bidStack)) {
@@ -225,16 +249,24 @@ void processAwardCommand(char *commandNumber, char *consoleId) {
     }
 
     // Eliminar la consola de la lista
-    deleteAtPosition(pos, &consoleList);
+    deleteAtPosition(pos, consoleList);
 }
 
 /*
  * Objetivo: Procesar el comando [I]nvalidateBids para invalidar pujas de consolas con exceso de pujas
  * Entradas:
  *   - commandNumber: número de comando
- * Salidas: Imprime el resultado del comando
+ *   - consoleList: puntero a la lista de consolas
+ * Salidas:
+ *   - consoleList: lista de consolas actualizada
+ * Precondiciones:
+ *   - consoleList debe estar inicializada
+ *   - commandNumber debe ser no nulo
+ * Postcondiciones:
+ *   - Si hay consolas que cumplen la condición, se vacía su pila de pujas
+ *   - Se muestra el resultado del comando
  */
-void processInvalidateBidsCommand(char *commandNumber) {
+void InvalidateBids(char *commandNumber, tList *consoleList) {
     tPosL pos;
     float averageBids = 0.0;
     int totalBids = 0, totalConsoles = 0;
@@ -243,14 +275,14 @@ void processInvalidateBidsCommand(char *commandNumber) {
     printf("%s I\n", commandNumber);
 
     // Si la lista está vacía
-    if (isEmptyList(consoleList)) {
+    if (isEmptyList(*consoleList)) {
         printf("+ Error: InvalidateBids not possible\n");
         return;
     }
 
     // Calcular la media de pujas
-    for (pos = first(consoleList); pos != LNULL; pos = next(pos, consoleList)) {
-        tItemL console = getItem(pos, consoleList);
+    for (pos = first(*consoleList); pos != LNULL; pos = next(pos, *consoleList)) {
+        tItemL console = getItem(pos, *consoleList);
         totalBids += console.bidCounter;
         totalConsoles++;
     }
@@ -263,8 +295,8 @@ void processInvalidateBidsCommand(char *commandNumber) {
     averageBids = (float)totalBids / totalConsoles;
 
     // Invalidar pujas que superan el doble de la media
-    for (pos = first(consoleList); pos != LNULL; pos = next(pos, consoleList)) {
-        tItemL console = getItem(pos, consoleList);
+    for (pos = first(*consoleList); pos != LNULL; pos = next(pos, *consoleList)) {
+        tItemL console = getItem(pos, *consoleList);
 
         if (console.bidCounter > 2 * averageBids) {
             // Mostrar información antes de invalidar
@@ -280,7 +312,7 @@ void processInvalidateBidsCommand(char *commandNumber) {
 
             // Actualizar contador de pujas y guardar en la lista
             console.bidCounter = 0;
-            updateItem(console, pos, &consoleList);
+            updateItem(console, pos, consoleList);
 
             anyInvalidated = true;
         }
@@ -295,21 +327,29 @@ void processInvalidateBidsCommand(char *commandNumber) {
  * Objetivo: Procesar el comando [R]emove para eliminar consolas sin pujas
  * Entradas:
  *   - commandNumber: número de comando
- * Salidas: Imprime el resultado del comando
+ *   - consoleList: puntero a la lista de consolas
+ * Salidas:
+ *   - consoleList: lista de consolas actualizada
+ * Precondiciones:
+ *   - consoleList debe estar inicializada
+ *   - commandNumber debe ser no nulo
+ * Postcondiciones:
+ *   - Se eliminan las consolas sin pujas de la lista
+ *   - Se muestra el resultado del comando
  */
-void processRemoveCommand(char *commandNumber) {
+void Remove(char *commandNumber, tList *consoleList) {
     tPosL pos, nextPos;
     bool anyRemoved = false;
 
     printf("%s R\n", commandNumber);
 
     // Recorrer la lista y eliminar consolas sin pujas
-    pos = first(consoleList);
+    pos = first(*consoleList);
     while (pos != LNULL) {
-        tItemL console = getItem(pos, consoleList);
+        tItemL console = getItem(pos, *consoleList);
 
         // Guardar la siguiente posición antes de eliminar
-        nextPos = next(pos, consoleList);
+        nextPos = next(pos, *consoleList);
 
         if (console.bidCounter == 0) {
             // Mostrar información antes de eliminar
@@ -319,7 +359,7 @@ void processRemoveCommand(char *commandNumber) {
                    console.consolePrice, console.bidCounter);
 
             // Eliminar la consola
-            deleteAtPosition(pos, &consoleList);
+            deleteAtPosition(pos, consoleList);
             anyRemoved = true;
         }
 
@@ -335,9 +375,15 @@ void processRemoveCommand(char *commandNumber) {
  * Objetivo: Procesar el comando [S]tats para mostrar estadísticas
  * Entradas:
  *   - commandNumber: número de comando
- * Salidas: Imprime el resultado del comando
+ *   - consoleList: puntero a la lista de consolas
+ * Salidas: No hay salidas que modifiquen parámetros
+ * Precondiciones:
+ *   - consoleList debe estar inicializada
+ *   - commandNumber debe ser no nulo
+ * Postcondiciones:
+ *   - Se muestran las estadísticas de las consolas
  */
-void processStatsCommand(char *commandNumber) {
+void Stats(char *commandNumber, tList *consoleList) {
     tPosL pos;
     int nintendoCount = 0, segaCount = 0;
     float nintendoSum = 0.0, segaSum = 0.0;
@@ -349,14 +395,14 @@ void processStatsCommand(char *commandNumber) {
     printf("%s S\n", commandNumber);
 
     // Si la lista está vacía
-    if (isEmptyList(consoleList)) {
+    if (isEmptyList(*consoleList)) {
         printf("+ Error: Stats not possible\n");
         return;
     }
 
     // Recorrer la lista y mostrar cada consola
-    for (pos = first(consoleList); pos != LNULL; pos = next(pos, consoleList)) {
-        tItemL console = getItem(pos, consoleList);
+    for (pos = first(*consoleList); pos != LNULL; pos = next(pos, *consoleList)) {
+        tItemL console = getItem(pos, *consoleList);
 
         // Mostrar información de la consola
         printf("Console %s seller %s brand %s price %.2f",
@@ -418,39 +464,40 @@ void processStatsCommand(char *commandNumber) {
  *   - commandNumber: número del comando
  *   - command: tipo de comando (N, D, B, A, I, R, S)
  *   - param1, param2, param3, param4: parámetros del comando
- * Salidas: Imprime el resultado del comando
+ *   - consoleList: puntero a la lista de consolas
+ * Salidas:
+ *   - consoleList: lista de consolas actualizada
+ * Precondiciones:
+ *   - consoleList debe estar inicializada
+ *   - commandNumber y command deben ser no nulos
+ * Postcondiciones:
+ *   - Se procesa el comando correspondiente
  */
-void processCommand(char *commandNumber, char command, char *param1, char *param2, char *param3, char *param4) {
-    // Inicializar la lista si no se ha hecho aún
-    if (!initialized) {
-        createEmptyList(&consoleList);
-        initialized = 1;
-    }
-
+void processCommand(char *commandNumber, char command, char *param1, char *param2, char *param3, char *param4, tList *consoleList) {
     // Mostrar encabezado del comando
     printf("********************\n");
 
     switch (command) {
         case 'N':
-            processNewCommand(commandNumber, param1, param2, param3, param4);
+            New(commandNumber, param1, param2, param3, param4, consoleList);
             break;
         case 'D':
-            processDeleteCommand(commandNumber, param1);
+            Delete(commandNumber, param1, consoleList);
             break;
         case 'B':
-            processBidCommand(commandNumber, param1, param2, param3);
+            Bid(commandNumber, param1, param2, param3, consoleList);
             break;
         case 'A':
-            processAwardCommand(commandNumber, param1);
+            Award(commandNumber, param1, consoleList);
             break;
         case 'I':
-            processInvalidateBidsCommand(commandNumber);
+            InvalidateBids(commandNumber, consoleList);
             break;
         case 'R':
-            processRemoveCommand(commandNumber);
+            Remove(commandNumber, consoleList);
             break;
         case 'S':
-            processStatsCommand(commandNumber);
+            Stats(commandNumber, consoleList);
             break;
         default:
             printf("Unknown command %c\n", command);
@@ -462,9 +509,16 @@ void processCommand(char *commandNumber, char command, char *param1, char *param
  * Objetivo: Leer y procesar los comandos desde un archivo
  * Entradas:
  *   - filename: nombre del archivo
- * Salidas: No hay valor de retorno
+ *   - consoleList: puntero a la lista de consolas
+ * Salidas:
+ *   - consoleList: lista de consolas actualizada
+ * Precondiciones:
+ *   - consoleList debe estar inicializada
+ *   - filename debe ser no nulo
+ * Postcondiciones:
+ *   - Se procesan todos los comandos del archivo
  */
-void readTasks(char *filename) {
+void readTasks(char *filename, tList *consoleList) {
     FILE *f = NULL;
     char *commandNumber, *command, *param1, *param2, *param3, *param4;
     const char delimiters[] = " \n\r";
@@ -481,7 +535,7 @@ void readTasks(char *filename) {
             param3 = strtok(NULL, delimiters);
             param4 = strtok(NULL, delimiters);
 
-            processCommand(commandNumber, command[0], param1, param2, param3, param4);
+            processCommand(commandNumber, command[0], param1, param2, param3, param4, consoleList);
         }
 
         fclose(f);
@@ -496,9 +550,15 @@ void readTasks(char *filename) {
  *   - nargs: número de argumentos
  *   - args: array de argumentos
  * Salidas: Código de retorno del programa
+ * Precondiciones: No hay precondiciones específicas
+ * Postcondiciones: Se ejecuta el programa y se devuelve un código de salida
  */
 int main(int nargs, char **args) {
     char *file_name = "new.txt";
+    tList consoleList;
+
+    // Inicializar la lista al inicio del programa
+    createEmptyList(&consoleList);
 
     if (nargs > 1) {
         file_name = args[1];
@@ -508,7 +568,7 @@ int main(int nargs, char **args) {
         #endif
     }
 
-    readTasks(file_name);
+    readTasks(file_name, &consoleList);
 
     return 0;
 }
