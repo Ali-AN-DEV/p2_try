@@ -44,24 +44,24 @@ void New(char *commandNumber, char *consoleId, char *userId, char *brand, char *
     printf("%s N: console %s seller %s brand %s price %s\n",
            commandNumber, consoleId, userId, brand, price);
 
-    // Comprobar si la consola ya existe
+    //comprobar si la consola ya existe
     if (findItem(consoleId, *consoleList) != LNULL) {
         printf("+ Error: New not possible\n");
         return;
     }
 
-    // Inicializar datos de la consola
+    //inicializar datos de la consola
     strcpy(newConsole.consoleId, consoleId);
     strcpy(newConsole.seller, userId);
     newConsole.consoleBrand = (strcmp(brand, "nintendo") == 0) ? nintendo : sega;
     newConsole.consolePrice = atof(price);
     newConsole.bidCounter = 0;
 
-    // Crear una pila vacía para las pujas
+    //crear una pila vacía para las pujas
     createEmptyStack(&emptyStack);
     newConsole.bidStack = emptyStack;
 
-    // Insertar la consola en la lista
+    //insertar la consola en la lista
     if (insertItem(newConsole, consoleList)) {
         printf("* New: console %s seller %s brand %s price %.2f\n",
                newConsole.consoleId, newConsole.seller,
@@ -400,11 +400,11 @@ void Stats(char *commandNumber, tList *consoleList) {
         return;
     }
 
-    // Recorrer la lista y mostrar cada consola
+    //recorrer la lista y mostrar cada consola
     for (pos = first(*consoleList); pos != LNULL; pos = next(pos, *consoleList)) {
         tItemL console = getItem(pos, *consoleList);
 
-        // Mostrar información de la consola
+        //mostrar información de la consola
         printf("Console %s seller %s brand %s price %.2f",
                console.consoleId, console.seller,
                (console.consoleBrand == nintendo) ? "nintendo" : "sega",
@@ -414,12 +414,12 @@ void Stats(char *commandNumber, tList *consoleList) {
             tItemS highestBid = peek(console.bidStack);
             printf(" bids %d top bidder %s\n", console.bidCounter, highestBid.bidder);
 
-            // Calcular incremento porcentual
+            //calcular incremento porcentual
             float originalPrice = console.consolePrice;
             float topBidPrice = highestBid.consolePrice;
             float increase = ((topBidPrice - originalPrice) / originalPrice) * 100.0;
 
-            // Actualizar la consola con la puja más alta
+            //actualizar la consola con la puja más alta
             if (increase > maxIncrease) {
                 maxIncrease = increase;
                 topBidConsole = console;
@@ -447,7 +447,7 @@ void Stats(char *commandNumber, tList *consoleList) {
     printf("Sega    %10d%9.2f%9.2f\n", segaCount, segaSum,
            (segaCount > 0) ? segaSum / segaCount : 0.0);
 
-    // Mostrar información de la mejor puja
+    //mostrar información de la mejor puja
     if (foundTopBid) {
         printf("Top bid: console %s seller %s brand %s price %.2f bidder %s top price %.2f increase %.2f%%\n",
                topBidConsole.consoleId, topBidConsole.seller,
@@ -474,7 +474,7 @@ void Stats(char *commandNumber, tList *consoleList) {
  *   - Se procesa el comando correspondiente
  */
 void processCommand(char *commandNumber, char command, char *param1, char *param2, char *param3, char *param4, tList *consoleList) {
-    // Mostrar encabezado del comando
+    //encabezado del comando exacto
     printf("********************\n");
 
     switch (command) {
@@ -557,7 +557,7 @@ int main(int nargs, char **args) {
     char *file_name = "new.txt";
     tList consoleList;
 
-    // Inicializar la lista al inicio del programa
+    //inicializar la lista al inicio del programa
     createEmptyList(&consoleList);
 
     if (nargs > 1) {

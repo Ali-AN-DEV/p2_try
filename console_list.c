@@ -51,7 +51,7 @@ bool isEmptyList(tList l) {
  * Salidas:
  *   - Posición del primer elemento de la lista
  *   - LNULL si la lista está vacía
- * Precondiciones: La lista debe estar inicializada
+ * Precondiciones: La lista debe estar inicializada y NO VACÍA
  * Postcondiciones: No modifica la lista
  */
 tPosL first(tList l) {
@@ -65,15 +65,11 @@ tPosL first(tList l) {
  * Salidas:
  *   - Posición del último elemento de la lista
  *   - LNULL si la lista está vacía
- * Precondiciones: La lista debe estar inicializada
+ * Precondiciones: La lista debe estar inicializada y NO VACÍA (nota de profesor)
  * Postcondiciones: No modifica la lista
  */
 tPosL last(tList l) {
     tPosL p;
-
-    if (isEmptyList(l)) {
-        return LNULL;
-    }
 
     for (p = l; p->next != LNULL; p = p->next);
     return p;
