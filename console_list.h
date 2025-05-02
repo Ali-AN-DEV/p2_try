@@ -38,7 +38,7 @@ typedef struct tNode {
 typedef tPosL tList;
 
 
-// Operaciones del TAD ConsoleList
+//operaciones del TAD ConsoleList
 void createEmptyList(tList* l);
 bool isEmptyList(tList l);
 tPosL first(tList l);

@@ -17,16 +17,16 @@ GROUP: 1.2                                                        DATE: 03/04/20
 #define SNULL -1
 #define MAX_STACK 25
 
-// Definición de un elemento de la pila (una puja)
+//definición de un elemento de la pila (una puja)
 typedef struct {
     tUserId bidder;
     tConsolePrice consolePrice;
 } tItemS;
 
-// Definición de posición en la pila
+//definición de posición en la pila
 typedef int tPosS;
 
-// Definición de la pila estática
+//definición de la pila estática
 typedef struct {
     tItemS data[MAX_STACK];  // Array de elementos
     tPosS top;               // Índice del elemento superior
