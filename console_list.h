@@ -8,18 +8,14 @@ AUTHOR 2: Pedro Rodríguez Raposo  LOGIN 2: pedro.rodriguez.raposo@udc.es
 GROUP: 1.2                                                        DATE: 03/04/2025
 */
 
-#ifndef CONSOLE_LIST_H
-#define CONSOLE_LIST_H
-
-#include "types.h"
-#include <stdbool.h>
 #include <stdlib.h>
 #include <stddef.h>
 #include "bid_stack.h"
 
-#define LNULL NULL
+#define LNULL -1
+#define MAX_LIST 25
 
-typedef struct tNode *tPosL;
+typedef int tPosL;
 
 typedef struct tItemL {
     tUserId seller;
@@ -30,13 +26,10 @@ typedef struct tItemL {
     tStack bidStack;
 } tItemL;
 
-typedef struct tNode {
-    tItemL data;
-    tPosL next;
-}tNode;
-
-typedef tPosL tList;
-
+typedef struct {
+    tItemL data[MAX_LIST];
+    tPosL lastPos;
+} tList;
 
 //operaciones del TAD ConsoleList
 void createEmptyList(tList* l);

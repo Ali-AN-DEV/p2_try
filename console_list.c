@@ -9,14 +9,7 @@ GROUP: 1.2                                                        DATE: 03/04/20
 */
 
 #include "console_list.h"
-#include <stdlib.h>
 #include <string.h>
-
-// Función auxiliar para crear un nuevo nodo
-bool createNode(tPosL* p) {
-    *p = malloc(sizeof(struct tNode));
-    return (*p != LNULL);
-}
 
 /*
  * Objetivo: Crear una lista vacía
@@ -25,10 +18,10 @@ bool createNode(tPosL* p) {
  * Salidas:
  *   - Lista inicializada (vacía)
  * Precondiciones: Ninguna
- * Postcondiciones: La lista queda inicializada como vacía (LNULL)
+ * Postcondiciones: La lista queda inicializada como vacía
  */
 void createEmptyList(tList* l) {
-    *l = LNULL;
+    l->lastPos = LNULL;
 }
 
 /*
@@ -41,7 +34,7 @@ void createEmptyList(tList* l) {
  * Postcondiciones: No modifica la lista
  */
 bool isEmptyList(tList l) {
-    return (l == LNULL);
+    return (l.lastPos == LNULL);
 }
 
 /*
@@ -55,7 +48,10 @@ bool isEmptyList(tList l) {
  * Postcondiciones: No modifica la lista
  */
 tPosL first(tList l) {
-    return l;
+    if (isEmptyList(l)) {
+        return LNULL;
+    }
+    return 0;
 }
 
 /*
@@ -65,14 +61,11 @@ tPosL first(tList l) {
  * Salidas:
  *   - Posición del último elemento de la lista
  *   - LNULL si la lista está vacía
- * Precondiciones: La lista debe estar inicializada y NO VACÍA (nota de profesor)
+ * Precondiciones: La lista debe estar inicializada y NO VACÍA
  * Postcondiciones: No modifica la lista
  */
 tPosL last(tList l) {
-    tPosL p;
-
-    for (p = l; p->next != LNULL; p = p->next);
-    return p;
+    return l.lastPos;
 }
 
 /*
@@ -87,10 +80,10 @@ tPosL last(tList l) {
  * Postcondiciones: No modifica la lista
  */
 tPosL next(tPosL p, tList l) {
-    if (p == LNULL) {
+    if (p == LNULL || p >= l.lastPos) {
         return LNULL;
     }
-    return p->next;
+    return p + 1;
 }
 
 /*
@@ -105,14 +98,10 @@ tPosL next(tPosL p, tList l) {
  * Postcondiciones: No modifica la lista
  */
 tPosL previous(tPosL p, tList l) {
-    tPosL q;
-
-    if (p == l) {
+    if (p == LNULL || p <= 0) {
         return LNULL;
     }
-
-    for (q = l; q != LNULL && q->next != p; q = q->next);
-    return q;
+    return p - 1;
 }
 
 /*
@@ -122,50 +111,43 @@ tPosL previous(tPosL p, tList l) {
  *   - l: puntero a la lista
  * Salidas:
  *   - true si se insertó correctamente
- *   - false si no hay memoria disponible
+ *   - false si no hay espacio disponible
  * Precondiciones: La lista debe estar inicializada
- * Postcondiciones: Si hay memoria disponible, la lista incluye el elemento
+ * Postcondiciones: Si hay espacio disponible, la lista incluye el elemento
  *                 en la posición que le corresponde ordenada por consoleId
  */
 bool insertItem(tItemL d, tList *l) {
-    tPosL q, p, r;
+    tPosL pos, i;
 
-    // Crear el nuevo nodo
-    if (!createNode(&q)) {
+    // Verificar si hay espacio
+    if (l->lastPos == MAX_LIST - 1) {
         return false;
     }
 
-    q->data = d;
-    q->next = LNULL;
-
-    // Si la lista está vacía, el nuevo nodo es el primero
+    // Si la lista está vacía
     if (isEmptyList(*l)) {
-        *l = q;
+        l->data[0] = d;
+        l->lastPos = 0;
         return true;
     }
 
     // Buscar la posición donde insertar (ordenado por consoleId)
-    p = *l;
-    r = LNULL;
-
-    while ((p != LNULL) && (strcmp(p->data.consoleId, d.consoleId) < 0)) {
-        r = p;
-        p = p->next;
+    pos = 0;
+    while (pos <= l->lastPos && strcmp(l->data[pos].consoleId, d.consoleId) < 0) {
+        pos++;
     }
 
-    // Si hay que insertar al principio
-    if (r == LNULL) {
-        q->next = *l;
-        *l = q;
-    } else {
-        // Insertar entre r y p
-        q->next = r->next;
-        r->next = q;
+    // Desplazar elementos hacia la derecha
+    for (i = l->lastPos; i >= pos; i--) {
+        l->data[i + 1] = l->data[i];
     }
+
+    // Insertar el nuevo elemento
+    l->data[pos] = d;
+    l->lastPos++;
 
     return true;
 }
-
 
 /*
  * Objetivo: Eliminar el elemento de una posición específica de la lista
@@ -176,22 +158,22 @@ bool insertItem(tItemL d, tList *l) {
  * Precondiciones:
  *   - La lista no está vacía
  *   - La posición p es válida
- *   - La consola en dicha posición tiene una pila de pujas vacía
  * Postcondiciones: El elemento en la posición p es eliminado
  */
 void deleteAtPosition(tPosL p, tList* l) {
-    tPosL q;
+    tPosL i;
 
-    if (p == *l) {
-        // Eliminar el primer elemento
-        *l = p->next;
-    } else {
-        // Eliminar un elemento que no es el primero
-        q = previous(p, *l);
-        q->next = p->next;
+    // Desplazar elementos hacia la izquierda
+    for (i = p; i < l->lastPos; i++) {
+        l->data[i] = l->data[i + 1];
     }
 
-    free(p);
+    l->lastPos--;
+
+    // Si la lista queda vacía
+    if (l->lastPos < 0) {
+        l->lastPos = LNULL;
+    }
 }
 
 /*
@@ -205,7 +187,7 @@ void deleteAtPosition(tPosL p, tList* l) {
  * Postcondiciones: No modifica la lista
  */
 tItemL getItem(tPosL p, tList l) {
-    return p->data;
+    return l.data[p];
 }
 
 /*
@@ -219,7 +201,7 @@ tItemL getItem(tPosL p, tList l) {
  * Postcondiciones: El elemento en la posición p es actualizado con el valor d
  */
 void updateItem(tItemL d, tPosL p, tList* l) {
-    p->data = d;
+    l->data[p] = d;
 }
 
 /*
@@ -234,14 +216,17 @@ void updateItem(tItemL d, tPosL p, tList* l) {
  * Postcondiciones: No modifica la lista
  */
 tPosL findItem(tConsoleId id, tList l) {
-    tPosL p;
+    tPosL pos;
 
     // La lista está ordenada por consoleId, aprovechamos este hecho
-    for (p = l; (p != LNULL) && (strcmp(p->data.consoleId, id) < 0); p = p->next);
-
-    // Verificar si encontramos el elemento o si ya pasamos donde debería estar
-    if (p != LNULL && strcmp(p->data.consoleId, id) == 0) {
-        return p;  // Encontrado
+    for (pos = 0; pos <= l.lastPos; pos++) {
+        int cmp = strcmp(l.data[pos].consoleId, id);
+        if (cmp == 0) {
+            return pos;  // Encontrado
+        }
+        if (cmp > 0) {
+            break;  // Ya pasamos donde debería estar
+        }
     }
 
     return LNULL;  // No encontrado
